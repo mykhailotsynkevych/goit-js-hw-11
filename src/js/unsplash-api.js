@@ -1,4 +1,6 @@
 'use strict';
+import axios from 'axios';
+import Notiflix from 'notiflix';
 
 export class UnsplashApi {
   #BASE_URL = 'https://pixabay.com';
@@ -6,10 +8,11 @@ export class UnsplashApi {
   constructor() {
     this.page = 1;
     this.query = null;
+    axios.defaults.baseURL = this.#BASE_URL;
   }
 
   fetchPhotos() {
-    const search = new URLSearchParams({
+    axios.defaults.params = {
       key: this.#API_KEY,
       q: this.query,
       image_type: 'photo',
@@ -17,15 +20,15 @@ export class UnsplashApi {
       safesearch: 'true',
       page: 1,
       per_page: 40,
-    });
+    };
 
-    return fetch(`${this.#BASE_URL}/api/?${search}`).then(response => {
-      if (!response.ok) {
-        throw 'Error';
-      }
-
-      return response.json();
-    });
+    return axios
+      .get(`/api/`)
+      .then(response => response.data)
+      .catch(err => 
+        Notiflix.Notify.failure(
+          "Sorry, there are no images matching your search query. Please try again."
+        ));
   }
 
   increasePage() {

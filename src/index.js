@@ -55,7 +55,7 @@ const handleSearchFormSubmit = async event => {
       Notiflix.Notify.failure(
         'Sorry, there are no images matching your search query. Please try again.'
       );
-      loadMoreBtn.classList.add('is-hidden');
+      loadMoreBtnEl.classList.add('is-hidden');
     } else {
       photosListEl.innerHTML = createCardsList(images);
       // console.log(pixabayApi);

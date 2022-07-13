@@ -37,6 +37,9 @@ const handleSearchFormSubmit = async event => {
   if (value === '') {
     photosListEl.innerHTML = '';
     loadMoreBtnEl.classList.add('is-hidden');
+          Notiflix.Notify.failure(
+        'Please enter a value!'
+      );
     return;
   }
 

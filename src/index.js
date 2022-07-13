@@ -80,8 +80,11 @@ const handleLoadMoreBtnClick = async event => {
   try {
     const data = await pixabayApi.fetchPhotos();
     photosListEl.insertAdjacentHTML('beforeend', createCardsList(data.hits));
-    if (pixabayApi.page === data.totalHits) {
+    if (data.totalHits === 500) {
       loadMoreBtnEl.classList.add('is-hidden');
+      Notiflix.Notify.failure(
+          "We're sorry, but you've reached the end of search results."
+        )
     }
   } catch (error) {
     console.log(error);

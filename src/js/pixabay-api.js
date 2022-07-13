@@ -6,7 +6,7 @@ export class PixabayApi {
   #BASE_URL = 'https://pixabay.com';
   #API_KEY = '28586147-3ab4251b0e4522a1aabc38539';
   constructor() {
-    this.page = 1;
+    this.page = 498;
     this.query = null;
     axios.defaults.baseURL = this.#BASE_URL;
   }

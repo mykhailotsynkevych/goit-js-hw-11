@@ -1,8 +1,8 @@
-import { UnsplashApi } from './js/unsplash-api';
+import { PixabayApi } from './js/pixabay-api';
 import createCardsList from '../src/gallery-card.hbs';
 import Notiflix from 'notiflix';
 
-const unsplashApi = new UnsplashApi();
+const pixabayApi = new PixabayApi();
 
 const searhFormEl = document.querySelector('.search-form');
 const input = document.querySelector('input[ name= searchQuery]');
@@ -42,11 +42,11 @@ const handleSearchFormSubmit = async event => {
     return;
   }
 
-  unsplashApi.query = value;
-  unsplashApi.page = 1;
+  pixabayApi.query = value;
+  pixabayApi.page = 1;
 
   try {
-    const data = await unsplashApi.fetchPhotos();
+    const data = await pixabayApi.fetchPhotos();
     photosListEl.innerHTML = createCardsList(data.hits);
     loadMoreBtnEl.classList.remove('is-hidden');
 
@@ -75,12 +75,12 @@ const handleSearchFormSubmit = async event => {
 // };
 
 const handleLoadMoreBtnClick = async event => {
-  unsplashApi.page += 1;
+  pixabayApi.page += 1;
 
   try {
-    const data = await unsplashApi.fetchPhotos();
+    const data = await pixabayApi.fetchPhotos();
     photosListEl.insertAdjacentHTML('beforeend', createCardsList(data.hits));
-    if (unsplashApi.page === data.totalHits) {
+    if (pixabayApi.page === data.totalHits) {
       loadMoreBtnEl.classList.add('is-hidden');
     }
   } catch (error) {

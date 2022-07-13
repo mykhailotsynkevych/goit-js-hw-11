@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 
-export class UnsplashApi {
+export class PixabayApi {
   #BASE_URL = 'https://pixabay.com';
   #API_KEY = '28586147-3ab4251b0e4522a1aabc38539';
   constructor() {

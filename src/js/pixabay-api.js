@@ -8,6 +8,7 @@ export class PixabayApi {
   constructor() {
     this.page = 1;
     this.query = null;
+    this.totalPages = null;
     axios.defaults.baseURL = this.#BASE_URL;
   }
 
@@ -37,5 +38,9 @@ export class PixabayApi {
 
   setQuery(query) {
     this.query = query;
+  }
+
+    calcTotalPages(totalHits) {
+    this.totalPages = Math.ceil(totalHits / 40);
   }
 }

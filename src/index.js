@@ -5,8 +5,6 @@ import Notiflix from 'notiflix';
 const pixabayApi = new PixabayApi();
 
 const searhFormEl = document.querySelector('.search-form');
-const input = document.querySelector('input[ name= searchQuery]');
-const button = document.querySelector('button');
 const photosListEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.js-load-more');
 
@@ -47,14 +45,22 @@ const handleSearchFormSubmit = async event => {
 
   try {
     const data = await pixabayApi.fetchPhotos();
-    photosListEl.innerHTML = createCardsList(data.hits);
+    const totalHits = data.totalHits;
+    const images = data.hits;
+    photosListEl.innerHTML = createCardsList(images);
     loadMoreBtnEl.classList.remove('is-hidden');
+     pixabayApi.calcTotalPages(totalHits);
 
-    if (data.hits.length === 0) {
-      loadMoreBtnEl.classList.add('is-hidden');
+    if (images.length === 0) {
       Notiflix.Notify.failure(
-        "Sorry, there are no images matching your search query. Please try again."
-      )
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+      loadMoreBtn.classList.add('is-hidden');
+    } else {
+      photosListEl.innerHTML = createCardsList(images);
+      // console.log(pixabayApi);
+
+      loadMoreBtnEl.classList.remove('is-hidden');
     }
   } catch (error) {
     // document.body.innerHTML = error.message;
@@ -80,7 +86,7 @@ const handleLoadMoreBtnClick = async event => {
   try {
     const data = await pixabayApi.fetchPhotos();
     photosListEl.insertAdjacentHTML('beforeend', createCardsList(data.hits));
-    if (data.totalHits === 500) {
+    if (pixabayApi.page === pixabayApi.totalPages) {
       loadMoreBtnEl.classList.add('is-hidden');
       Notiflix.Notify.failure(
           "We're sorry, but you've reached the end of search results."

@@ -8,38 +8,15 @@ const searhFormEl = document.querySelector('.search-form');
 const photosListEl = document.querySelector('.gallery');
 const loadMoreBtnEl = document.querySelector('.js-load-more');
 
-// const handleSearchFormSubmit = event => {
-//   event.preventDefault();
-
-//   const { value } = event.target.elements['searchQuery'];
-
-//   if (value === '') {
-//         photosListEl.innerHTML = '';
-//     loadMoreBtnEl.classList.add('is-hidden');
-//     return;
-//   }
-
-//     unsplashApi.query = value;
-//      unsplashApi.page = 1;
-
-//   unsplashApi
-//     .fetchPhotos()
-//     .then(data => (photosListEl.innerHTML = createCardsList(data.hits)));
-
-//   loadMoreBtnEl.classList.remove('is-hidden');
-// };
-
 const handleSearchFormSubmit = async event => {
   event.preventDefault();
 
-  const { value } = event.target.elements['searchQuery'];
+  const value = event.target.elements['searchQuery'].value.trim();
 
   if (value === '') {
     photosListEl.innerHTML = '';
     loadMoreBtnEl.classList.add('is-hidden');
-          Notiflix.Notify.failure(
-        'Please enter a value!'
-      );
+    Notiflix.Notify.failure('Please enter a value!');
     return;
   }
 
@@ -52,7 +29,7 @@ const handleSearchFormSubmit = async event => {
     const images = data.hits;
     photosListEl.innerHTML = createCardsList(images);
     loadMoreBtnEl.classList.remove('is-hidden');
-     pixabayApi.calcTotalPages(totalHits);
+    pixabayApi.calcTotalPages(totalHits);
 
     if (images.length === 0) {
       Notiflix.Notify.failure(
@@ -71,18 +48,6 @@ const handleSearchFormSubmit = async event => {
   }
 };
 
-// const handleLoadMoreBtnClick = event => {
-//   unsplashApi.page += 1;
-
-//   unsplashApi.fetchPhotos().then(data => {
-//     photosListEl.insertAdjacentHTML('beforeend', createCardsList(data.hits));
-//   });
-    
-//         if (unsplashApi.page === data.totalHits) {
-//       loadMoreBtnEl.classList.add('is-hidden');
-//     }
-// };
-
 const handleLoadMoreBtnClick = async event => {
   pixabayApi.page += 1;
 
@@ -92,8 +57,8 @@ const handleLoadMoreBtnClick = async event => {
     if (pixabayApi.page === pixabayApi.totalPages) {
       loadMoreBtnEl.classList.add('is-hidden');
       Notiflix.Notify.failure(
-          "We're sorry, but you've reached the end of search results."
-        )
+        "We're sorry, but you've reached the end of search results."
+      );
     }
   } catch (error) {
     console.log(error);
